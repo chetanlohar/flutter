@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_second_app/answer.dart';
 import 'package:my_second_app/question.dart';
 
 class ChetanApp extends StatefulWidget {
@@ -40,17 +41,10 @@ class _ChetanAppState extends State<ChetanApp> {
         ),
         body: Column(
           children: [
-            Question(_q.queId, _q.questionText),
-            ElevatedButton(
-              onPressed: _ansQues,
-              child: Text(
-                'Next',
-                textAlign: TextAlign.center,
-              ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
-              ),
-            ),
+            Question(_questions[_idx].queId, _questions[_idx].questionText),
+            Answer('Green', Colors.green, _ansQues),
+            Answer('Blue', Colors.blue, _ansQues),
+            Answer('Red', Colors.red, _ansQues),
           ],
         ),
       ),
