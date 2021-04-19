@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_second_app/answer.dart';
 import 'package:my_second_app/question.dart';
+import 'package:my_second_app/quiz.dart';
+import 'package:my_second_app/result.dart';
 
 class ChetanApp extends StatefulWidget {
   @override
@@ -13,16 +14,27 @@ class _ChetanAppState extends State<ChetanApp> {
   int _idx = 0;
   Question _q = Question(0, 'Click to show questions');
 
-  List<Question> _questions = [
-    Question(1, 'What is your name?'),
-    Question(2, 'What is you do?'),
-    Question(3, 'What is your city?'),
+  List<Map<String, Object>> map = [
+    {
+      'question': 'What is your favriote colour?',
+      'answers': ['Green', 'Blue', 'Red', 'Black', 'White'],
+    },
+    {
+      'question': 'Which is your favriote city?',
+      'answers': ['Mumbai', 'Pune', 'Nashik'],
+    },
   ];
+
+  // List<Question> _questions = [
+  //   Question(1, 'What is your name?'),
+  //   Question(2, 'What is you do?'),
+  //   Question(3, 'What is your city?'),
+  // ];
 
   void _ansQues() {
     print('Pre: $_idx');
     setState(() {
-      _q = Question(_questions[_idx].queId, _questions[_idx].questionText);
+      _q = Question(_idx, map[_idx]['question']);
       _idx++;
       if (_idx == 3) {
         print('equal to 3');
@@ -39,14 +51,13 @@ class _ChetanAppState extends State<ChetanApp> {
         appBar: AppBar(
           title: Text('Rental Management'),
         ),
-        body: Column(
-          children: [
-            Question(_questions[_idx].queId, _questions[_idx].questionText),
-            Answer('Green', Colors.green, _ansQues),
-            Answer('Blue', Colors.blue, _ansQues),
-            Answer('Red', Colors.red, _ansQues),
-          ],
-        ),
+        body: _idx < map.length
+            ? Quiz(
+                questions: map,
+                idx: _idx,
+                ansQuesHandler: _ansQues,
+              )
+            : Result(),
       ),
     );
   }
