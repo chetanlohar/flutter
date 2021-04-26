@@ -6,6 +6,12 @@ class NewTransaction extends StatelessWidget {
   final amountController = TextEditingController();
   final Function addTransactionHandler;
   NewTransaction(this.addTransactionHandler);
+
+  void submitData() {
+    addTransactionHandler(
+        titleController.text, double.parse(amountController.text));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -20,24 +26,16 @@ class NewTransaction extends StatelessWidget {
                 labelText: 'Title',
               ),
               controller: titleController,
+              onSubmitted: (_) => submitData(),
             ),
             TextField(
-              decoration: InputDecoration(
-                labelText: 'Amount',
-              ),
+              decoration: InputDecoration(labelText: 'Amount'),
               controller: amountController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              onSubmitted: (_) => submitData(),
             ),
             TextButton(
-              onPressed: () {
-                Transaction t = Transaction(
-                    id: 10,
-                    amount: double.parse(amountController.text),
-                    date: DateTime.now(),
-                    title: titleController.text);
-                print(t.title + '::' + t.amount.toString());
-                addTransactionHandler(
-                    titleController.text, double.parse(amountController.text));
-              },
+              onPressed: submitData,
               child: Text(
                 'Add Transaction',
                 style: TextStyle(color: Colors.purple),
